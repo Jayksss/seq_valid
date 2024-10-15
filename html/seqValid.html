@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연속된 문자열 정렬 검사</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <input type="text" id="inputString" placeholder="문자열을 입력하세요" onkeyup="handleKeyUp(event)" />
+    <button onclick="checkStringOrder()">검사하기</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    // 3글자 연속된 오름차순 또는 내림차순을 확인하는 함수
+    function checkOrder(str) {
+        if (str.length < 3) return "3글자 이상 입력해주세요";
+
+        let hasAscending = false;
+        let hasDescending = false;
+
+        // 3글자씩 연속된 구간을 검사
+        for (let i = 0; i < str.length - 2; i++) {
+            const first = str.charCodeAt(i);
+            const second = str.charCodeAt(i + 1);
+            const third = str.charCodeAt(i + 2);
+
+            if (first + 1 === second && second + 1 === third) {
+                hasAscending = true;
+            }
+            if (first - 1 === second && second - 1 === third) {
+                hasDescending = true;
+            }
+        }
+
+        if (hasAscending) return "오름차순";
+        if (hasDescending) return "내림차순";
+        return "정렬되지 않음";
+    }
+
+    // 사용자가 입력한 문자열을 검사하고 결과를 표시하는 함수
+    function checkStringOrder() {
+        const input = document.getElementById("inputString").value;
+        const result = checkOrder(input);
+        document.getElementById("result").innerText = `결과: ${result}`;
+    }
+
+    // Enter 키가 눌렸을 때 검사하기 버튼을 자동으로 실행하는 함수
+    function handleKeyUp(event) {
+        if (event.key === "Enter") {
+            checkStringOrder();
+        }
+    }
+</script>
+
+</body>
+</html>
